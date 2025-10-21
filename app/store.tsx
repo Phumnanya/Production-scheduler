@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { Resource, Order } from "./types/types";
+import { Resource } from "./types/types";
+import { Order } from "./components/zod-validation";
 
 type Store = {
   resources: Resource[];
@@ -10,15 +11,15 @@ type Store = {
 
 export const useStore = create<Store>((set) => ({
   resources: [
-    { id: 1, name: "CNC Machine 1", quantity: 0, status: "Available" },
-    { id: 2, name: "Assembly Line A", quantity: 0, status: "Available" },
-    { id: 3, name: "Assembly Line B", quantity: 0, status: "Available" }
+    { id: 1, machine: "CNC Machine 1", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
+    { id: 2, machine: "Assembly Line A", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
+    { id: 3, machine: "Assembly Line B", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" }
   ],
-  orders: [],
+  orders: [], //formdata: [],
   addOrder: (order) =>
     set((state) => ({ orders: [...state.orders, order] })),
   updateOrder: (order) =>
     set((state) => ({
-      orders: state.orders.map((o) => (o.id === order.id ? order : o)),
+      orders: state.orders.map((o) => (o.machine === order.machine ? order : o)),
     })),
 }));

@@ -1,16 +1,19 @@
 export type Resource = {
-  id: number;
-  name: string;
-  quantity: number;
-  status: "Available" | "Busy";
-};
-
-export type Order = {
-  id: number;
-  name: string;
-  resourceId?: number;
+  id?: number;
+  machine: string;
+  task: string;
   quantity: number;
   startTime?: string;
   endTime?: string;
   status: "Pending" | "Scheduled";
+};
+
+export type Order = {
+  id?: number;
+  machine: string;
+  task: string;
+  quantity: number;
+  startTime?: string;
+  endTime?: string;
+  status?: "Pending" | "Scheduled";
 };
