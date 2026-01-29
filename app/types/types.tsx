@@ -17,3 +17,13 @@ export type Order = {
   endTime?: string;
   status?: "Pending" | "Scheduled";
 };
+
+export type table = {
+  id: number;
+  machine: "CNC Machine 1" | "Assembly Line A" | "Assembly Line B";
+  task: string;
+  quantity: number;
+  startTime: string;
+  endTime: string;
+  status?: "Pending" | "Scheduled";
+};

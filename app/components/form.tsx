@@ -8,42 +8,40 @@ export default function Form() {
     const resources = useStore((state) => state.resources);
     const addOrder = useStore((state) => state.addOrder);
 
-    //state for forms
+    //state for form
     const [machine, setMachine] = useState("");
     const [task, setTask] = useState("");
     const [quantity, setQuantity] = useState("");
     const [startTime, setstartTime] = useState("");
     const [endTime, setendTime] = useState("");
-
-    //error message
     const [error, setError] = useState<string | null>(null);
 
-
-    const handleSubmit = (e: React.FormEvent) => {
+//submit form
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-   
-        //form object for parsing data
         const formdata = { machine, task, quantity, startTime, endTime};
-
         const parsed = ZodSchema.safeParse(formdata);
 
         if (!parsed.success) {
-            setError(parsed.error.message);
-            alert("unsuccessful");
-            console.log(error);
-            return;
-        } else {
-            alert("successful");
-            setError("successful")
-            console.log("successful");
-            console.log(formdata);
+        setError(parsed.error.message);
+        alert("unsuccessful process");
+        console.log(error);
+        return;
+    } else {
+        alert("successful");
+        setError("successful")
+        console.log("successful");
+        console.log(formdata);
+    }
+
+        await fetch("http://127.0.0.1:5000/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formdata),
         }
-
-        //send the order information to zustand store
-        addOrder(parsed.data);
-        setError(null);
-
+    );
         //clear the form
+        setError(null);
         setMachine("");
         setTask("");
         setQuantity("");
@@ -51,6 +49,7 @@ export default function Form() {
         setendTime("");
         console.log(ZodSchema.safeParse({}));
     };
+    
     return(
         <>
         <p className="text-red-700">I am ready to take charge of my future!!</p>
@@ -95,3 +94,17 @@ export default function Form() {
         </>
     );
 }
+
+/*
+
+    async function handleSubmit (e: React.FormEvent) {
+        e.preventDefault();
+   
+        //form object for parsing data
+        const formdata = { machine, task, quantity, startTime, endTime};
+        const url = "http://127.0.0.1:5000/orders"
+
+        const response = await fetch(url);
+        const data = response.json();
+    };
+      */  

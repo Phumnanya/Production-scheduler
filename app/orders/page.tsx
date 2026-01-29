@@ -1,8 +1,7 @@
 "use client";
-import { useStore } from "../store";
-import { Resource } from "../types/types";
-import { Order } from "./zod-validation";
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { table } from "../types/types";
 import {
   ColumnDef,
   flexRender,
@@ -15,8 +14,28 @@ import {
 } from "@tanstack/react-table";
 
 export default function Table() {
-    const order = useStore((state) => state.orders);
-    const columns = React.useMemo<ColumnDef<Order>[]>(
+    //db_orders will get the list of orders from the db to display
+    const [db_orders, setdb_orders] = useState<table[]>([]);
+    const url = "http://127.0.0.1:5000/orders"
+
+//fetch list of orders from the db when page loads
+useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setdb_orders(data);
+        console.log(data);
+        console.log("DATA TYPE:", typeof data, data);
+        } catch (err) {
+            console.error(err);
+        }
+  };
+
+  fetchOrders();
+}, []);
+
+    const columns = React.useMemo<ColumnDef<table>[]>(
         () => [
             {
                 accessorKey: "id",
@@ -55,7 +74,7 @@ export default function Table() {
 
 
     const tables = useReactTable({
-        data: order, columns,
+        data: db_orders, columns,
         getCoreRowModel: getCoreRowModel(),
         state: {
         globalFilter,
@@ -140,3 +159,11 @@ export default function Table() {
         </div>
     )
 }
+
+/*
+ useEffect(() => {
+        fetch("http://127.0.0.1:5000/orders")
+        .then(res => res.json())
+        .then(data => setdb_orders(data));
+    }, []);
+*/

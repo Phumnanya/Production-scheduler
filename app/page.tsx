@@ -1,5 +1,5 @@
 import Form from "./components/form";
-import Table from "./components/tables";
+import Table from "./orders/page";
 
 export default function Home() {
   return (
