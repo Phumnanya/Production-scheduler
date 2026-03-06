@@ -1,6 +1,7 @@
 export type Resource = {
   id?: number;
   machine: string;
+  date?: string;
   task: string;
   quantity: number;
   startTime?: string;
@@ -20,7 +21,8 @@ export type Order = {
 
 export type table = {
   id: number;
-  machine: "CNC Machine 1" | "Assembly Line A" | "Assembly Line B";
+  machine: "" | "CNC Machine 1" | "Assembly Line A" | "Assembly Line B";
+  date?: string;
   task: string;
   quantity: number;
   startTime: string;

@@ -11,9 +11,10 @@ type Store = {
 
 export const useStore = create<Store>((set) => ({
   resources: [
-    { id: 1, machine: "CNC Machine 1", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
-    { id: 2, machine: "Assembly Line A", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
-    { id: 3, machine: "Assembly Line B", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" }
+    { id: 1, machine: "", date:"", task:"", quantity: 0, startTime:"", endTime:"", status: "Pending" },
+    { id: 1, machine: "CNC Machine 1", date:"", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
+    { id: 2, machine: "Assembly Line A", date:"", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" },
+    { id: 3, machine: "Assembly Line B", date:"", task:"", quantity: 0, startTime:"9:00", endTime:"9:05", status: "Pending" }
   ],
   orders: [], //formdata: [],
   addOrder: (order) =>

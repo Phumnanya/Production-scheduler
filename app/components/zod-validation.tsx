@@ -1,13 +1,50 @@
 import { z } from "zod";
 
 export const ZodSchema = z.object({
-  //id: z.number().int(),
+  date: z.string(),
   machine: z.enum(["CNC Machine 1", "Assembly Line A", "Assembly Line B"]),
   task: z.string().min(3, "Name must be at least 3 characters"),
   quantity: z.coerce.number().min(1, "Quantity must be at least 1"),
   startTime: z.string(),
   endTime: z.string(),
 })
+.refine((data) => data.startTime < data.endTime, {
+  message: "End time must be later than start time",
+  path: ["endTime"],
+})
+// 2. Database check (Asynchronous)
+.superRefine(async (data, ctx) => {
+  try {
+    const response = await fetch("http://127.0.0.1:5000/check-collision", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: data.date,
+        start: data.startTime,
+        end: data.endTime,
+      }),
+    });
+
+    const result = await response.json();
+
+    // If the backend says the slot is taken or has not elapsed
+    if (result.conflict === true) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "This time slot overlaps with an existing active order",
+        path: ["startTime"], // Highlight the field causing the issue
+      });
+    }
+  } catch (error) {
+    // Optional: handle API failure
+    console.error("Validation fetch failed", error);
+  }
+});
+
+export type Order = z.infer<typeof ZodSchema>;
+
+
+/*
 .refine(
   (data) => {
     // Compare times (in "HH:MM" format)
@@ -20,5 +57,4 @@ export const ZodSchema = z.object({
     path: ["endTime"], // attaches the error to the 'endTime' field
   }
 );
-
-export type Order = z.infer<typeof ZodSchema>;
+*/

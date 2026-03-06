@@ -11,11 +11,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
+  createColumnHelper,
 } from "@tanstack/react-table";
 
 export default function Table() {
     //db_orders will get the list of orders from the db to display
     const [db_orders, setdb_orders] = useState<table[]>([]);
+    const columnHelper = createColumnHelper<table>();
     const url = "http://127.0.0.1:5000/orders"
 
 //fetch list of orders from the db when page loads
@@ -34,6 +36,13 @@ useEffect(() => {
 
   fetchOrders();
 }, []);
+
+const handleDelete = async (id: number) => {
+  if (confirm("Are you sure you want to delete this order?")) {
+    await fetch(`http://127.0.0.1:5000/orders/${id}`, { method: 'DELETE' });
+    // Refresh your data here (e.g., call your fetchOrders function)
+  }
+};
 
     const columns = React.useMemo<ColumnDef<table>[]>(
         () => [
@@ -65,6 +74,19 @@ useEffect(() => {
                 accessorKey: "status",
                 header: "Status",
             },
+            columnHelper.display({
+                id: "actions",
+                cell: (props) => (
+                <div className="flex gap-2">
+                    <button 
+                    onClick={() => handleDelete(props.row.original.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
+                    Delete
+                    </button>
+                </div>
+                ),
+            }),
         ],
         []
     );
@@ -160,10 +182,11 @@ useEffect(() => {
     )
 }
 
-/*
- useEffect(() => {
-        fetch("http://127.0.0.1:5000/orders")
-        .then(res => res.json())
-        .then(data => setdb_orders(data));
-    }, []);
+/**
+<button 
+    onClick={() => handleEdit(props.row.original)}
+    className="bg-blue-500 text-white px-2 py-1 rounded"
+    >
+    Edit
+</button> 
 */

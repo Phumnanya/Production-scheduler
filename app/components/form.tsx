@@ -1,5 +1,4 @@
 "use client";
-import { z } from "zod";
 import React, { useState } from "react";
 import { useStore } from "../store";
 import { ZodSchema } from "./zod-validation";
@@ -10,6 +9,7 @@ export default function Form() {
 
     //state for form
     const [machine, setMachine] = useState("");
+    const [date,setDate] = useState("");
     const [task, setTask] = useState("");
     const [quantity, setQuantity] = useState("");
     const [startTime, setstartTime] = useState("");
@@ -17,9 +17,9 @@ export default function Form() {
     const [error, setError] = useState<string | null>(null);
 
 //submit form
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
-        const formdata = { machine, task, quantity, startTime, endTime};
+        const formdata = { machine, date, task, quantity, startTime, endTime};
         const parsed = ZodSchema.safeParse(formdata);
 
         if (!parsed.success) {
@@ -33,7 +33,6 @@ export default function Form() {
         console.log("successful");
         console.log(formdata);
     }
-
         await fetch("http://127.0.0.1:5000/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,6 +42,7 @@ export default function Form() {
         //clear the form
         setError(null);
         setMachine("");
+        setDate("");
         setTask("");
         setQuantity("");
         setstartTime("");
@@ -75,6 +75,11 @@ export default function Form() {
             border-black border-solid p-3"
             onChange={(e) => setQuantity(e.target.value)} />
             <br /><br />
+            <label htmlFor="Date">Date</label><br />
+            <input type="date" value={date} className="w-full bg-white
+            border-black border-solid p-3"
+            onChange={(e) => setDate(e.target.value)} />
+            <br /><br />
             <label htmlFor="stime">Start Time</label><br />
             <input type="time" value={startTime} className="w-full bg-white
             border-black border-solid p-3" name="startTime"
@@ -95,16 +100,3 @@ export default function Form() {
     );
 }
 
-/*
-
-    async function handleSubmit (e: React.FormEvent) {
-        e.preventDefault();
-   
-        //form object for parsing data
-        const formdata = { machine, task, quantity, startTime, endTime};
-        const url = "http://127.0.0.1:5000/orders"
-
-        const response = await fetch(url);
-        const data = response.json();
-    };
-      */  
