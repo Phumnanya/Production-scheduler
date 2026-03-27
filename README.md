@@ -3,7 +3,7 @@
 # About #
 A Next.js project sourced from the coding canal's coding challenge on github. This is a production scheduler with 3 independent machine resources (CNC machine, Assembly Line A, Assembly Line B) capable of taking orders and producing and recording the inventory.
 
-- Technologies, Libraries and frameworks used includes; Next.js, Flask Python, PostgreSQL, Recharts.js, Zod validator, and Tanstack table.
+- Technologies, Libraries and frameworks used includes; Next.js, Typescript, Tailwind CSS, Flask Python, PostgreSQL, Recharts.js, Zod validator, and Tanstack table.
 
 # Home/Landing Page#
 * The home page opens with a form where the user enters the details of an order (quantity, date, start time, and end time) for any machine of their choice with the specific task you want it to perform.
