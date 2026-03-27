@@ -12,7 +12,7 @@ export const ZodSchema = z.object({
   message: "End time must be later than start time",
   path: ["endTime"],
 })
-// 2. Database check (Asynchronous)
+// 2. Asynchronous Database check for collision 
 .superRefine(async (data, ctx) => {
   try {
     const response = await fetch("http://127.0.0.1:5000/check-collision", {
@@ -20,8 +20,9 @@ export const ZodSchema = z.object({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         date: data.date,
-        start: data.startTime,
-        end: data.endTime,
+        machine: data.machine,
+        startTime: data.startTime,
+        endTime: data.endTime,
       }),
     });
 
@@ -37,7 +38,7 @@ export const ZodSchema = z.object({
     }
   } catch (error) {
     // Optional: handle API failure
-    console.error("Validation fetch failed", error);
+    console.error("API Validation fetch failed", error);
   }
 });
 

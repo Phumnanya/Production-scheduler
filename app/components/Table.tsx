@@ -27,29 +27,26 @@ useEffect(() => {
         const response = await fetch(url);
         const data = await response.json();
         setdb_orders(data);
-        console.log(data);
-        console.log("DATA TYPE:", typeof data, data);
         } catch (err) {
             console.error(err);
         }
   };
-
   fetchOrders();
 }, []);
 
 const handleDelete = async (id: number) => {
   if (confirm("Are you sure you want to delete this order?")) {
     await fetch(`http://127.0.0.1:5000/orders/${id}`, { method: 'DELETE' });
-    // Refresh your data here (e.g., call your fetchOrders function)
   }
 };
 
     const columns = React.useMemo<ColumnDef<table>[]>(
         () => [
-            {
-                accessorKey: "id",
-                header: "ID",
-            },
+            columnHelper.display({
+                id: "rowNumber",
+                header: "S/N",
+                cell: (info) => info.row.index + 1,
+            }),
             {
                 accessorKey: "machine",
                 header: "Machine",
@@ -90,11 +87,10 @@ const handleDelete = async (id: number) => {
         ],
         []
     );
-    //state for search, sorting, filtering
+//state for search, sorting, filtering
     const [globalFilter, setGlobalFilter] = React.useState("");
     const [sorting, setSorting] = React.useState<SortingState>([]);
-
-
+//initializing of the table
     const tables = useReactTable({
         data: db_orders, columns,
         getCoreRowModel: getCoreRowModel(),
@@ -110,8 +106,8 @@ const handleDelete = async (id: number) => {
     });
 
     return(
-        <div className="w-4/5 m-auto p-4">
-            <h1 className="m-auto w-fit font-bold">Order Table</h1>
+        <div className="md:w-4/5 mx-auto md:my-20 my-5 w-full overflow-x-auto p-4">
+            <h1 className="m-auto w-fit font-bold">Orders</h1>
             {/* Search Bar*/}
             <input
                 type="text"
@@ -121,7 +117,7 @@ const handleDelete = async (id: number) => {
                 className="border px-3 py-2 rounded w-full md:w-1/3 bg-amber-200"
             />
             {/* Table */}
-            <table className="w-full border-2 border-black">
+            <table className="md:w-full min-w-max border-2 border-black">
                 <thead className="bg-gray-100">
                     {tables.getHeaderGroups().map((headerGroup) => (
                       <tr key={headerGroup.id}>

@@ -29,3 +29,13 @@ export type table = {
   endTime: string;
   status?: "Pending" | "Scheduled";
 };
+
+export type displaytable = {
+  machine: "" | "CNC Machine 1" | "Assembly Line A" | "Assembly Line B";
+  date?: string;
+  task: string;
+  quantity: number;
+  startTime: string;
+  endTime: string;
+  status?: "Pending" | "Scheduled";
+};
