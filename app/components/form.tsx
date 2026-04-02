@@ -17,6 +17,7 @@ export default function RegisterOrder() {
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [EndTimerrors, setEndTimErrors] = useState<Record<string, string[]>>({});
     const [isLoading, setIsLoading] = useState(true);
+    const [data,setData] = useState("");
     const router = useRouter();
 
 //decoy data fetching to enable page loading spinner
