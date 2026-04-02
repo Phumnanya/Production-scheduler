@@ -17,6 +17,7 @@ import {
 export default function Table() {
     //db_orders will get the list of orders from the db to display
     const [db_orders, setdb_orders] = useState<table[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const columnHelper = createColumnHelper<table>();
     const url = "http://127.0.0.1:5000/orders"
 
@@ -27,6 +28,7 @@ useEffect(() => {
         const response = await fetch(url);
         const data = await response.json();
         setdb_orders(data);
+        setIsLoading(false);
         } catch (err) {
             console.error(err);
         }
@@ -104,6 +106,15 @@ const handleDelete = async (id: number) => {
         getSortedRowModel: getSortedRowModel(),
         onSortingChange: setSorting,
     });
+    if (isLoading) {
+        return(
+            <div className="fixed inset-0 bg-white flex flex-col justify-center 
+            items-center z-50">
+                <img src='/icons8-loading.gif' alt="Loading..." />
+                <p className="mt-4 text-black font-semibold">Loading Dashboard...</p>
+            </div>
+        )
+    }
 
     return(
         <div className="md:w-4/5 mx-auto md:my-20 my-5 w-full overflow-x-auto p-4">

@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Resource } from "../types/types";
 import { ZodSchema } from "./zod-validation";
+import Image from "next/image";
 
 export default function RegisterOrder() {
 
@@ -15,7 +16,25 @@ export default function RegisterOrder() {
     const [endTime, setendTime] = useState("");
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [EndTimerrors, setEndTimErrors] = useState<Record<string, string[]>>({});
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+
+    useEffect(() => {
+    const fetchInitialData = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/orders");
+            const result = await response.json();
+            setData(result); 
+        } catch (error) {
+            console.error("Failed to load initial data", error);
+        } finally {
+            // This runs whether the fetch succeeded or failed
+            setIsLoading(false); 
+        }
+    };
+
+    fetchInitialData();
+}, []);
 
 //machines for the form
     const machines: Resource[] =
@@ -31,6 +50,7 @@ export default function RegisterOrder() {
         e.preventDefault();
         setErrors({});
         setEndTimErrors({});
+        //setIsLoading(false);
         const formdata = { machine, date, task, quantity, startTime, endTime};
         const parsed = await ZodSchema.safeParseAsync(formdata);
 
@@ -51,6 +71,15 @@ export default function RegisterOrder() {
             router.push('/dashboard');
         }
     };
+    if (isLoading) {
+        return(
+            <div className="fixed inset-0 bg-white flex flex-col justify-center 
+            items-center z-50">
+                <img src='/icons8-loading.gif' alt="Loading..." />
+                <p className="mt-4 text-black font-semibold">Loading Scheduler...</p>
+            </div>
+        )
+    }
     
     return(
         <div className="md:p-10 p-4 md:w-3/5 w-full h-fit shadow-2xl bg-amber-200 md:mx-auto">
@@ -61,7 +90,7 @@ export default function RegisterOrder() {
             onChange={(e) => setMachine(e.target.value)} 
             value={machine} >
                 {machines.map((machine) => (
-                <option value={machine.machine}>{machine.machine}</option>
+                <option key={machine.machine} value={machine.machine}>{machine.machine}</option>
                 ))}
             </select>
             <br /><br />

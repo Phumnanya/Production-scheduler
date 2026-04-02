@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, PieShape, Cell
 } from "recharts";
+import Image from "next/image";
 
 //interface types for useState containers
 interface ChartData {
@@ -83,7 +84,7 @@ export default function Recharts() {
       fetchOrders();
     }, []);
 
-    //bring out the data for Pie chart
+    //bring out the data for Pie chart 
     const PieData = [
         { machine: "Assembly Line A", value: totalQuantityA },
         { machine: "Assembly Line B", value: totalQuantityB },

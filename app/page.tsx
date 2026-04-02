@@ -1,6 +1,9 @@
+"use client";
+import { useState, useEffect } from "react";
 import Form from "./components/form";
 import RegisterOrder from "./components/form";
 import Frame from "./components/iframe";
+import Image from "next/image";
 
 export default function Home() {
   return (

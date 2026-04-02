@@ -6,7 +6,7 @@ export default function Frame() {
             <div className="text-center bg-lime-500 text-white p-2 w-full">
                 <Link href="/dashboard">
                     <h2>
-                        Go to Dashboard <b>&gt;</b>
+                        Go to Dashboard
                     </h2>
                 </Link>
             </div>
