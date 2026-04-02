@@ -19,10 +19,11 @@ export default function RegisterOrder() {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
+//decoy data fetching to enable page loading spinner
     useEffect(() => {
     const fetchInitialData = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/orders");
+            const response = await fetch("http://127.0.0.1:5000/orders", { cache: "force-cache" });
             const result = await response.json();
             setData(result); 
         } catch (error) {
