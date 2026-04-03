@@ -25,7 +25,7 @@ export default function Recharts() {
         const [totalQuantityB, settotalQuantityB] = useState<number>();
         const [totalQuantityCNC, settotalQuantityCNC] = useState<number>();
         
-    const url = "http://127.0.0.1:5000/orders"
+    const url = "https://production-scheduler-backend-server.onrender.com/orders"
 
 //inside function to fetch list of orders from the db when page loads
     useEffect(() => {
