@@ -24,7 +24,7 @@ export default function RegisterOrder() {
     useEffect(() => {
     const fetchInitialData = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/orders", { cache: "force-cache" });
+            const response = await fetch("https://production-scheduler-backend-server.onrender.com/orders", { cache: "force-cache" });
             const result = await response.json();
             setData(result); 
         } catch (error) {
@@ -63,7 +63,7 @@ export default function RegisterOrder() {
         } else {
             alert("order has been scheduled successfully!!");
         }
-        const response = await fetch("http://127.0.0.1:5000/orders", {
+        const response = await fetch("https://production-scheduler-backend-server.onrender.com/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formdata),
