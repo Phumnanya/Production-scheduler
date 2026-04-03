@@ -44,4 +44,3 @@ export const ZodSchema = z.object({
 
 export type Order = z.infer<typeof ZodSchema>;
 
-*/
