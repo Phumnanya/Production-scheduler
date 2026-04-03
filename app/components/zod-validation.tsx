@@ -15,7 +15,7 @@ export const ZodSchema = z.object({
 // 2. Asynchronous Database check for collision 
 .superRefine(async (data, ctx) => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/check-collision", {
+    const response = await fetch("https://production-scheduler-backend-server.onrender.com/check-collision", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -44,18 +44,4 @@ export const ZodSchema = z.object({
 
 export type Order = z.infer<typeof ZodSchema>;
 
-
-/*
-.refine(
-  (data) => {
-    // Compare times (in "HH:MM" format)
-    const start = data.startTime;
-    const end = data.endTime;
-    return start < end; // string comparison works fine for 24-hour times
-  },
-  {
-    message: "End time must be later than start time",
-    path: ["endTime"], // attaches the error to the 'endTime' field
-  }
-);
 */
