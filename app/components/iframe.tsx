@@ -13,7 +13,7 @@ export default function Frame() {
             
             <div className="w-full md:block hidden h-28">
                 <iframe
-                src="http://localhost:3000/dashboard"
+                src="/dashboard"
                 title="dashboard page"
                 className="w-full md:block hidden h-28"
                 />
