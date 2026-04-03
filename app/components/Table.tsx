@@ -19,7 +19,7 @@ export default function Table() {
     const [db_orders, setdb_orders] = useState<table[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const columnHelper = createColumnHelper<table>();
-    const url = "http://127.0.0.1:5000/orders"
+    const url = "https://production-scheduler-backend-server.onrender.com/orders"
 
 //fetch list of orders from the db when page loads
 useEffect(() => {
@@ -38,7 +38,7 @@ useEffect(() => {
 
 const handleDelete = async (id: number) => {
   if (confirm("Are you sure you want to delete this order?")) {
-    await fetch(`http://127.0.0.1:5000/orders/${id}`, { method: 'DELETE' });
+    await fetch(`https://production-scheduler-backend-server.onrender.com/orders/${id}`, { method: 'DELETE' });
   }
 };
 
