@@ -31,7 +31,12 @@ export default function Recharts() {
     useEffect(() => {
       const fetchOrders = async () => {
         try {
-            const response = await fetch(url, { cache: "force-cache" });
+            const response = await fetch(url, {
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache'
+  }
+});
             const data: table[] = await response.json();
             //Assembly Line A
                 const lineA = () => {
