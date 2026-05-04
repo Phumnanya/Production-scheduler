@@ -25,7 +25,12 @@ export default function Table() {
 useEffect(() => {
   const fetchOrders = async () => {
     try {
-        const response = await fetch(url, { cache: "force-cache" });
+        const response = await fetch(url, {
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache'
+  }
+});
         const data = await response.json();
         setdb_orders(data);
         setIsLoading(false);
